@@ -35,13 +35,15 @@ Nexus'u lokalden çıkarıp global bir "Komuta Merkezi"ne dönüştürmek için 
 ### 1. Nexus HQ (Backend & Dashboard)
 Nexus Dashboard'un canlı örneğine [bch-agent-app.vercel.app](https://bch-agent-app.vercel.app) üzerinden ulaşabilirsiniz. 
 
-**API Sunucusunu Sizin İçin Otomatikleştirdim:**
-Aşağıdaki butona basarak API sunucusunu (Render üzerinde) tüm ayarlarıyla (Veritabanı, Disk, Port) tek tıkla kurabilirsiniz:
+**API Sunucusunu Sizin İçin Otomatikleştirdim (Render & Railway):**
+Aşağıdaki butonları kullanarak API sunucusunu saniyeler içinde canlıya alabilirsiniz:
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/gokselalperen669-ux/bch-agent-sdk)
+| Platform | Dağıtım Butonu |
+| :--- | :--- |
+| **Railway (Önerilen)** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
+| **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
 
-> **Not:** Butona bastığınızda Render, projedeki `render.yaml` dosyasını otomatik okuyacak ve her şeyi kendisi yapılandıracaktır.
-
+> **Not:** Railway kullanırken, projenizi bağladığınızda eklediğim `railway.json` dosyasını otomatik okuyacak ve Docker kurulumunu kendisi yapacaktır.
 ### 2. CLI Yapılandırması
 CLI'yı canlı Dashboard'a bağlamak için terminalinizde şu değişkenleri tanımlayın:
 ```powershell
