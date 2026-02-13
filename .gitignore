@@ -6,4 +6,6 @@ dist
 !package.json
 !tsconfig.json
 !agent.config.json
+!railway.json
+!render.yaml
 .git
