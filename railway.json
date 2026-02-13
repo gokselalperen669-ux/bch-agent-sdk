@@ -1,7 +1,0 @@
-{
-    "deploy": {
-        "startCommand": "node bch-agent-app/api-server.js",
-        "numReplicas": 1,
-        "sleepApplication": false
-    }
-}
