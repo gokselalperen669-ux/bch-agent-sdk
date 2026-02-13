@@ -1,0 +1,17 @@
+{
+    "name": "bch-nexus-global-hq",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": "20.x"
+    },
+    "scripts": {
+        "start": "node bch-agent-app/api-server.js",
+        "build": "echo 'No build step needed for API'"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    }
+}

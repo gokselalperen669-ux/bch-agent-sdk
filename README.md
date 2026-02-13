@@ -40,7 +40,7 @@ Aşağıdaki butonları kullanarak API sunucusunu saniyeler içinde canlıya ala
 
 | Platform | Dağıtım Butonu |
 | :--- | :--- |
-| **Railway (Önerilen)** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
+| **Railway (Önerilen)** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
 | **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
 
 > **Not:** Railway kullanırken, projenizi bağladığınızda eklediğim `railway.json` dosyasını otomatik okuyacak ve Docker kurulumunu kendisi yapacaktır.
