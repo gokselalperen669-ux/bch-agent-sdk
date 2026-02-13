@@ -442,6 +442,83 @@ We welcome contributions! Please see our contributing guidelines:
 
 MIT License - see [LICENSE](LICENSE) for details.
 
+---
+
+## 🌐 Global Cloud Deployment (Community)
+
+The BCH Agent Framework is designed to be hosted on cloud platforms (Heroku, Render, Vercel). To enable a shared community experience, the **Nexus API** should be connected to a dedicated PostgreSQL database (Supabase recommended).
+
+### 1. Database Setup (Supabase)
+Create a new project on [Supabase](https://supabase.com) and execute the following SQL in the SQL Editor to initialize the global state:
+
+```sql
+-- Users Table
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  name TEXT,
+  avatar TEXT,
+  inventory JSONB DEFAULT '[]',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Agents Table
+CREATE TABLE agents (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  description TEXT,
+  type TEXT DEFAULT 'vault',
+  ticker TEXT,
+  bonding_curve_progress INT DEFAULT 0,
+  holders INT DEFAULT 0,
+  status TEXT DEFAULT 'active',
+  user_id UUID REFERENCES users(id),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Wallets Table
+CREATE TABLE wallets (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  address TEXT NOT NULL,
+  agent_id UUID REFERENCES agents(id),
+  user_id UUID REFERENCES users(id),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Logs Table
+CREATE TABLE logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  agent_id UUID REFERENCES agents(id),
+  agent_name TEXT,
+  action TEXT NOT NULL,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+### 2. Environment Variables
+Configure your hosted Nexus API with these variables:
+- `JWT_SECRET`: A long random string
+- `SUPABASE_URL`: Your Supabase Project URL
+- `SUPABASE_KEY`: Your Supabase Service Role or Anon Key
+- `PORT`: 4000 (default)
+
+### 3. Deploying the Nexus API
+The `/bch-agent-api` is ready for deployment. Simply push the folder to your preferred host and ensure the `.env` variables are set.
+
+### 4. Client Configuration
+Once your API is live, update your clients:
+- **CLI**: Set the `AGENT_API_URL` environment variable:
+  ```bash
+  export AGENT_API_URL="https://your-api-url.com" # Linux/Mac
+  set AGENT_API_URL=https://your-api-url.com # Windows (cmd)
+  $env:AGENT_API_URL="https://your-api-url.com" # Windows (PowerShell)
+  ```
+- **Web App**: Set the `VITE_API_URL` in `bch-agent-app/.env`.
+
+---
+
 Built with ❤️ for the Bitcoin Cash developer ecosystem.
 
 ---

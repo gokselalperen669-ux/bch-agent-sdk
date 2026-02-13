@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: bch-nexus-api
+    runtime: docker
+    dockerContext: bch-agent-app
+    dockerfilePath: Dockerfile.api
+    plan: free
+    region: frankfurt
+    envVars:
+      - key: DATABASE_PATH
+        value: /data/db.json
+      - key: PORT
+        value: 4000
+    disk:
+      name: nexus-data
+      mountPath: /data
+      sizeGB: 1
