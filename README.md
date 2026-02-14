@@ -10,27 +10,52 @@ Nexus, Bitcoin Cash (BCH) ağı üzerinde yaşayan, düşünen ve işlem yapan o
 
 ---
 
-## 🚀 Proje Yol Haritası
+## 💻 Yerel Geliştirme (Localhost First)
 
-### 🛡️ Faz 1: Otonom Çekirdek & CLI (TEKNİK TAMAMLANDI)
-*Odak: Üstün Otonomi, Güvenlik ve Geliştirici Deneyimi.*
-- [x] **Otonom Zekâ Döngüsü:** Derin akıl yürütme (reasoning) ve on-chain aksiyon alma.
-- [x] **Local Message Bus (Crosstalk):** Ajanlar arası yerel sinyal iletişimi.
-- [x] **Persistent Memory:** Ajanların geçmiş kararları hatırlamasını sağlayan yerel hafıza.
-- [x] **Expert Connector Hub:** Kullanıcı denetimli özel API (DeFi, Social, Vault) katmanı.
-- [x] **CLI Power Tools:** `init`, `create`, `deploy`, `agent run`, `status`, `doctor`.
-- [x] **Global Sync:** CLI ve Web Dashboard arasında `authToken` ile zırhlı senkronizasyon.
+Nexus, varsayılan olarak **tamamen yerel** çalışacak şekilde tasarlanmıştır. Diğer geliştiriciler projeyi kendi bilgisayarlarında saniyeler içinde ayağa kaldırabilirler.
 
-### 💎 Faz 2: Ekosistem & Tokenizasyon (GELECEK)
-*Odak: Likidite, Ölçeklenme ve Sosyal Etkileşim.*
-- [ ] **NFT Identity Marketplace:** Ajan haklarının devredilebildiği NFT pazarı.
-- [ ] **Agent Bonding Curves:** Ajanların tokenizasyonu ve topluluk fonlaması.
+### 1. Servisleri Başlatma
+Kök dizindeki `START_NEXUS.bat` dosyasını çalıştırın veya şu komutları kullanın:
+```bash
+# Terminal 1: API Sunucusu
+cd bch-agent-app && npm run api
+
+# Terminal 2: Web Dashboard
+cd bch-agent-app && npm run dev
+```
+
+### 2. CLI Kurulumu
+Ajanlarınızı yönetmek için CLI aracını global olarak bağlayın:
+```bash
+cd bch-agent-sdk
+npm install && npm run build
+npm link
+```
+
+### 3. Kullanıma Hazır!
+Artık tarayıcınızdan `http://localhost:5173` adresine giderek hesabınızı oluşturabilir ve `bch-agent login` ile terminalden bağlanabilirsiniz.
 
 ---
 
-## 🌐 Global Dağıtım (Production Setup)
+## 🚀 Proje Yol Haritası
 
-Nexus'u lokalden çıkarıp global bir "Komuta Merkezi"ne dönüştürmek için şu adımları izleyin:
+### 🛡️ Faz 1: Otonom Çekirdek & CLI (TAMAMLANDI)
+*Güçlü bir yerel temel üzerine inşa edilmiştir.*
+- [x] **Otonom Zekâ Döngüsü:** Derin akıl yürütme ve on-chain aksiyon.
+- [x] **Local Message Bus:** Ajanlar arası yerel iletişim (Crosstalk).
+- [x] **Persistent Memory:** Kararların yerel diskte saklanması.
+- [x] **Expert Connector Hub:** Kullanıcı denetimli özel API katmanı.
+- [x] **CLI Power Tools:** `init`, `create`, `deploy`, `agent run`.
+
+### 💎 Faz 2: Ekosistem & Tokenizasyon (GELECEK)
+- [ ] **NFT Identity Marketplace:** Ajan haklarının devri.
+- [ ] **Agent Bonding Curves:** Ajanların topluluk fonlaması.
+
+---
+
+## 🌐 Global / Cloud Dağıtım (Opsiyonel / İleri Seviye)
+
+Projenizi buluta taşıyarak 7/24 otonomi sağlamak isterseniz bu seçenekleri kullanabilirsiniz:
 
 ### 1. Nexus HQ (Backend & Dashboard)
 Nexus Dashboard'un canlı örneğine [bch-agent-app.vercel.app](https://bch-agent-app.vercel.app) üzerinden ulaşabilirsiniz. 
@@ -43,57 +68,17 @@ Aşağıdaki butonları kullanarak API sunucusunu saniyeler içinde canlıya ala
 | **Railway (Önerilen)** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
 | **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/gokselalperen669-ux/bch-agent-sdk) |
 
-> **Not:** Railway kullanırken, projenizi bağladığınızda eklediğim `railway.json` dosyasını otomatik okuyacak ve Docker kurulumunu kendisi yapacaktır.
 ### 2. CLI Yapılandırması
-CLI'yı canlı Dashboard'a bağlamak için terminalinizde şu değişkenleri tanımlayın:
+CLI'yı canlı Dashboard'a bağlamak için:
 ```powershell
-# Windows (PowerShell)
 $env:AGENT_DASHBOARD_URL = "https://bch-agent-app.vercel.app"
-$env:AGENT_API_URL = "https://senin-render-api-adresin.onrender.com"
-```
-
-### 3. Ajanların Canlıya Alınması (Docker Standalone)
-Ajanınızı ihraç edip bağımsız bir konteyner olarak her yerde çalıştırabilirsiniz:
-```bash
-bch-agent export MyAgent --output ./dist
-cd ./dist
-docker build -t my-autonomous-agent .
-docker run -d --env-file .env my-autonomous-agent
+$env:AGENT_API_URL = "https://senin-api-adresin.com"
 ```
 
 ---
 
-## 🛠️ Hızlı Başlangıç
-
-### Kurulum
-```bash
-# SDK ve CLI Kurulumu
-cd bch-agent-sdk
-npm install
-npm run build
-npm link
-```
-
-### Proje Başlatma
-```bash
-bch-agent login
-bch-agent init my-project
-cd my-project
-bch-agent wallet setup
-```
-
-### Ajan Döngüsünü Başlatma
-```bash
-bch-agent agent create MyTrader --type defi
-bch-agent deploy MyTrader
-bch-agent agent run MyTrader
-```
-
----
-
-## 🔒 Güvenlik & Gizlilik
+##  Güvenlik & Gizlilik
 - **Özel Anahtarlar:** Cüzdan anahtarları asla lokalden ayrılmaz.
 - **Güvenli Senkronizasyon:** Ajan kararları `authToken` ile sadece sizin hesabınızla eşleşir.
-- **Açık Kaynak:** Tüm kontratlar ve SDK mantığı şeffaf bir şekilde incelenebilir.
 
 Built with 💚 for the Bitcoin Cash ecosystem.
