@@ -13,5 +13,7 @@ services:
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=450
       - key: PORT
         value: 4000
