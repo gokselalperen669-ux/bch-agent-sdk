@@ -1,17 +1,17 @@
 services:
   - type: web
-    name: bch-nexus-api
-    runtime: docker
-    dockerContext: bch-agent-app
-    dockerfilePath: Dockerfile.api
+    name: bch-nexus-global-hq
+    runtime: node
     plan: free
     region: frankfurt
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
-      - key: DATABASE_PATH
-        value: /data/db.json
+      - key: NODE_VERSION
+        value: 20.x
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
       - key: PORT
         value: 4000
-    disk:
-      name: nexus-data
-      mountPath: /data
-      sizeGB: 1
