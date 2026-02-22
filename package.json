@@ -8,7 +8,8 @@
     },
     "scripts": {
         "start": "node bch-agent-app/api-server.js",
-        "build": "echo 'No build step needed for API'"
+        "build": "npm install && cd bch-agent-app && npm install && npm run build",
+        "postinstall": "cd bch-agent-app && npm install"
     },
     "dependencies": {
         "express": "^4.18.2",
