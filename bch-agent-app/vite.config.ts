@@ -22,6 +22,7 @@ export default defineConfig({
       '/agents': 'http://localhost:4000',
       '/wallets': 'http://localhost:4000',
       '/public': 'http://localhost:4000',
+      '/market': 'http://localhost:4000',
       '/health': 'http://localhost:4000',
     }
   }

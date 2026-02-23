@@ -1,12 +1,12 @@
 /**
- * Molt-Spec Protocol Definition
+ * CashAgent Protocol Definition
  * Institutional-grade autonomous agent on-chain specifications.
  */
 
-export interface MoltSpec {
+export interface CashAgentSpec {
     version: string;
     agentId: string;
-    protocol: 'MOLT-1' | 'MOLT-2';
+    protocol: 'CASH-1' | 'CASH-2';
     autonomy: {
         level: 1 | 2 | 3 | 4 | 5;
         triggers: string[];
@@ -24,9 +24,9 @@ export interface MoltSpec {
     };
 }
 
-export class MoltEngine {
-    static validate(spec: MoltSpec): boolean {
+export class CashAgentEngine {
+    static validate(spec: CashAgentSpec): boolean {
         // Validation logic for autonomous on-chain agents
-        return spec.protocol.startsWith('MOLT') && spec.autonomy.level > 0;
+        return spec.protocol.startsWith('CASH') && spec.autonomy.level > 0;
     }
 }
