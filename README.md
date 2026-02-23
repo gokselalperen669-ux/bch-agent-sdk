@@ -1,126 +1,69 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/gokselalperen669-ux/bch-agent-sdk/main/bch-agent-sdk/assets/logo.png" width="300" alt="BCH Agent Framework Logo">
-</p>
+# 🛡️ Nexus BCH Agent SDK
 
-# Nexus: The Ultimate BCH Autonomous Agent Engine
+Nexus is a powerful framework for building autonomous, AI-driven on-chain agents on the Bitcoin Cash (BCH) network. It enables agents to manage wallets, execute smart contracts, and interact with DeFi protocols automatically.
 
-**Nexus** is a professional-grade SDK and CLI ecosystem designed for building, deploying, and managing autonomous AI agents on the Bitcoin Cash (BCH) network. These agents can think, reason, and execute on-chain transactions autonomously using high-level LLMs and CashScript smart contracts.
+## 🚀 Sequential Setup Guide
+
+Follow these steps in order to connect your local environment to the Cloud Dashboard.
 
 ---
 
-## � Quick Start Guide (Localhost First)
-
-Nexus is designed to run perfectly on your local machine. Follow these steps to launch your autonomous agent command center.
-
-### 1. Prerequisites
-- **Node.js 20+**
-- **Git**
-- **PowerShell / Terminal**
-
-### 2. Installation
+### Phase 1: Infrastructure Setup
+Initialize the SDK core and build the CLI tools.
 ```bash
-# Clone the repository
-git clone https://github.com/gokselalperen669-ux/bch-agent-sdk.git
-cd bch-agent-sdk
-
-# Install dependencies and link the CLI
 cd bch-agent-sdk
 npm install
 npm run build
-npm link
 ```
 
-### 3. Launching the Nexus HQ (Backend & Dashboard)
-Open **two separate terminals** to start the core services:
-
-**Terminal 1 (API Server):**
+### Phase 2: Cloud Connection (Vercel)
+Connect your local CLI to your deployed Cloud Dashboard to sync wallets and agents.
 ```bash
-cd bch-agent-app
-npm run api
+# Set your remote API URL
+node dist/cli/index.js config set-api https://your-vercel-app.com/api
+
+# Login to your cloud account
+node dist/cli/index.js login
 ```
 
-**Terminal 2 (Web Dashboard):**
+### Phase 3: Create Your Autonomous Agent
+Initialize a new agent project and prepare its on-chain identity.
 ```bash
-cd bch-agent-app
-npm run dev
-```
-*Visit `http://localhost:5173` in your browser to create your account.*
+# 1. Initialize project
+node bch-agent-sdk/dist/cli/index.js init my-autonomous-bot
+cd my-autonomous-bot
 
----
+# 2. Create and Secure Wallet
+node ../bch-agent-sdk/dist/cli/index.js wallet create
+node ../bch-agent-sdk/dist/cli/index.js wallet save
 
-## 🛠️ Developer Workflow: Creating Your First Agent
-
-Once your HQ is running, open a **third terminal** to manage your agents using the CLI.
-
-### Step 1: Authentication
-Login with the account you created on the Web Dashboard:
-```bash
-bch-agent login
+# 3. Compile Smart Contract
+node ../bch-agent-sdk/dist/cli/index.js compile
 ```
 
-### Step 2: Initialize Your Project
+### Phase 4: Deployment & Operation
+Launch your agent to start its autonomous loop.
 ```bash
-# Create and enter your project workspace
-bch-agent init my-agent-project
-cd my-agent-project
-```
+# Install agent-specific dependencies
+npm install
 
-### Step 3: Secure Wallet Setup
-Configure your agent's treasury.
-```bash
-bch-agent wallet setup
-# Follow the prompts to create a new encrypted mnemonic (Testnet4).
-```
-
-### Step 4: Forge the Agent
-Create a specialized agent (DeFi, Social, NFT, or Vault).
-```bash
-bch-agent agent create AgentX --type defi
-```
-
-### Step 5: Compile & Deploy
-Transform your agent's logic into blockchain bytecode and sync it with the Dashboard.
-```bash
-# Compile the Smart Contracts
-bch-agent compile
-
-# Deploy to the Blockchain (Testnet4)
-bch-agent deploy AgentX --network testnet4
-```
-
-### Step 6: Activate Autonomous Intelligence
-Launch the AI thinking loop. Your agent will now start making independent decisions!
-```bash
-bch-agent agent run AgentX
+# Start the 24/7 autonomous cycle
+npm start
 ```
 
 ---
 
-## � Features & Roadmap
+## 🤖 Agent Roles
+- **DeFi Agent:** Autonomous DEX swapping and liquidity management.
+- **NFT Agent:** On-chain state persistence using CashTokens NFTs.
+- **Social Agent:** Community signalling and real-time broadcasting.
+- **Vault Agent:** High-security asset management and risk-aware execution.
 
-### 🛡️ Phase 1: Autonomous Core (COMPLETED)
-- **Neural Reasoning Loop:** Deep analysis and on-chain action execution.
-- **Local Message Bus:** Inter-agent communication (Crosstalk protocol).
-- **Persistent Memory:** Local storage for past decisions and context.
-- **Intelligence Hub:** Dashboard interface to manage OpenAI, Telegram, and DeFi API keys.
-- **Advanced CLI:** Full lifecycle management from `init` to `run`.
-
-### 🌐 Phase 2: Ecosystem expansion (UPCOMING)
-- **NFT Identity Marketplace:** Tradable ownership of autonomous agents.
-- **Bonding Curve Tokenization:** Community funding for agent operations.
-
----
-
-## 🔒 Security & Privacy
-- **Local Keys:** Your private keys and mnemonics **never** leave your local machine or vault.
-- **Encrypted Sync:** Agent reasoning and logs are synced to the dashboard via secure `authToken`.
-- **Open Source:** Full transparency in smart contracts and SDK logic.
+## ☁️ Cloud Sync Features
+Once connected to the API, your agents will automatically:
+- Synchronize wallet addresses to the Dashboard.
+- Fetch real-time AI configuration (OpenAI/Claude keys).
+- Receive direct missions and commands from the web interface.
 
 ---
-
-## 🌍 Global Deployment
-Want to run your agents 7/24 in the cloud? Nexus is production-ready.
-- **Backend/API:** Support for Docker, Render, and Railway (`Procfile` included).
-- **Frontend:** Optimized for Vercel and Netlify.
-
-Built with 💚 for the Bitcoin Cash ecosystem.
+Built with ⚡ by **Antigravity**. Empowering the future of decentralized autonomous economy.

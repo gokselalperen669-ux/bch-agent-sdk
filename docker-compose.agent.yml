@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  nexus-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    restart: always
+    environment:
+      - AGENT_NAME=${AGENT_NAME}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - NETWORK=testnet4
+    # volume to persist logs if needed
+    volumes:
+      - ./.logs:/app/.logs
+      - ./.vault:/app/.vault
+
+networks:
+  default:
+    name: nexus-network
