@@ -1,103 +1,102 @@
-# 🛡️ Nexus: The Global BCH Autonomous Agent Engine
+# 🛡️ BCH NEXUS: The Global HQ for Autonomous AI Agents
 
-**Enterprise-Grade SDK for Building, Deploying, and Scaling AI Agents on Bitcoin Cash.**
+[![Status: Production Ready](https://img.shields.io/badge/Status-Production--Ready-00E339?style=flat-square&logo=gitbook&logoColor=white)](https://bch-agent-app.vercel.app/)
+[![Network: Bitcoin Cash](https://img.shields.io/badge/Network-Bitcoin--Cash-00E339?style=flat-square&logo=bitcoin-cash&logoColor=white)](https://bitcoincash.org)
+[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square)](https://github.com/vanguard-bch/nexus)
 
-Nexus is the ultimate framework for the decentralized autonomous economy. It combines high-performance BCH smart contracts (CashTokens) with advanced LLM reasoning to create agents that can think, transact, and evolve independently.
+### **Empowering the next generation of on-chain intelligence.**  
+BCH Nexus is the ultimate framework for building, deploying, and managing **autonomous AI agents** on the Bitcoin Cash blockchain. Leveraging CashScript smart contracts and high-performance LLMs, Nexus allows you to tokenize intelligence and run 24/7 on-chain entities with full financial autonomy.
 
 ---
 
-## 🌟 Key Features
+## 🌌 The Vision
+We believe AI should not just think, but **act**. Nexus provides the bridge between large language models and the decentralized economy. Whether it's a DeFi liquidity manager, an NFT-based state commitment engine, or a social broadcast agent—Nexus is the backbone of the agentic revolution.
 
-- **Autonomous reasoning loop:** Integrated memory and state-aware decision making using GPT-4, Claude 3, and DeepSeek.
-- **Proof-of-State (PoS):** Agents commit their mental state to the blockchain using CashTokens NFT metadata.
-- **Liquidity Bonding:** Tokenize your agents and launch them on the integrated DEX.
-- **Production-Ready:** Full Docker support for 7/24 operation on VPS, Railway, or AWS.
-- **Multi-Agent Orchestration:** Manage an entire fleet of bots from a single unified Dashboard.
+---
+
+## 🛠️ Core Tech Stack
+| Layer | Technology |
+| :--- | :--- |
+| **Smart Contracts** | CashScript (BCH Native) |
+| **Governance** | CashTokens (SLP-v3 / BCMR) |
+| **Intelligence** | OpenAI, Anthropic, DeepSeek, Ollama |
+| **Backend** | Node.js, Express, Supabase (PostgreSQL) |
+| **Frontend** | React 19, Vite, Framer Motion, Lucide |
+| **Infrastructure** | Docker, Vercel, Railway, Github Actions |
 
 ---
 
 ## 🚀 Quick Start (Production Setup)
 
-Nexus is designed to be deployed instantly using Docker Compose or dedicated cloud platforms like Vercel and Railway.
-
 **Live Dashboard:** [https://bch-agent-app.vercel.app/](https://bch-agent-app.vercel.app/)
 
 ### 1. Requirements
-- Docker & Docker Compose
-- Node.js 22+ (for local development)
-- OpenAI or DeepSeek API Key
+- **Docker & Docker Compose** (Recommended for stability)
+- **Node.js 22+** (For local development)
+- **OpenAI/DeepSeek API Key** (For agent intelligence)
 
-### 2. Environment Variables
-To connect your ecosystem, set the following variables:
-
-#### Frontend (Vercel)
-- `VITE_API_URL`: Your API backend URL (e.g., `https://nexus-api.railway.app`)
-- `VITE_SUPABASE_URL`: (Optional) If using direct Supabase
-- `VITE_SUPABASE_ANON_KEY`: (Optional)
-
-#### Backend (API)
-- `JWT_SECRET`: A long random string
-- `SUPABASE_URL`: Your Supabase Project URL
-- `SUPABASE_KEY`: Your Supabase Service Role Key
-- `PORT`: 4000 (default)
-
-#### CLI
-- `AGENT_API_URL`: Points to your Backend API
-
-### 3. Launching Locally
+### 2. Launch the HQ (Docker)
+Run the entire ecosystem (Frontend + Unified API) with a single command:
 ```bash
-# Clone the repository
-git clone https://github.com/vanguard-bch/nexus-framework.git
-cd nexus-framework
-
-# Launch the Full Stack (API + App)
 docker-compose up -d --build
 ```
-Your dashboard will be available at `http://localhost`.
+This will start:
+- 🌐 **Frontend + API Hub** on `http://localhost:4000`
+- 🛡️ **Nexus Relay Service** for sync status.
 
----
-
-## 🛠️ Developer Workflow
-
-### Core SDK Setup
-```bash
-cd bch-agent-sdk
+### 3. Initialize your first Agent Project
+```powershell
+# Install the SDK globally (if published) or use the local script
+.\bch.bat init my-first-agent
+cd my-first-agent
 npm install
-npm run build
-```
-
-### Initializing an Agent
-```bash
-# Create a root link to the CLI
-./bch.bat init my-autonomous-fund
-cd my-autonomous-fund
-
-# Generate keys and compile agent logic
-../bch.bat wallet create
-../bch.bat compile
-```
-
-### Running 7/24
-```bash
-# Each agent comes with its own Dockerfile
-docker build -t my-agent .
-docker run -d --name nexus-agent-1 my-agent
 ```
 
 ---
 
-## 🤖 AI Logic & Memory
-Nexus agents don't just react; they **remember**. 
-The updated `AiEngine` includes a rolling memory window that allows agents to learn from past transactions and reasoning cycles, ensuring strategic consistency over time.
+## 📟 CLI Command Matrix
+
+The **BCH Nexus CLI** is your command center for agent operations.
+
+| Command | Action | Description |
+| :--- | :--- | :--- |
+| `login` | `bch login` | Securely authenticate your CLI with the Global HQ. |
+| `init` | `bch init [name]` | Scaffold a new agent project with templates. |
+| `wallet setup` | `bch wallet setup` | Interactive HD wallet creation (Testnet/Mainnet). |
+| `compile` | `bch compile` | Transform `.cash` scripts into usable JSON artifacts. |
+| `agent create` | `bch agent create` | Generate advanced AI logic tied to a smart contract. |
+| `doctor` | `bch doctor` | Full system health check (Sync, Node, API, Network). |
+| `token tokenize` | `bch token tokenize` | Issue native CashTokens for your agent's governance. |
 
 ---
 
-## 🌍 Ecosystem
-- **Nexus API:** Secure relay for agent-to-dashboard communication.
-- **Nexus Studio:** Visual lab for designing agent behaviors and triggers.
-- **Token Exchange:** High-liquidity marketplace for tokenized autonomous entities.
+## 🏢 Infrastructure Map
+
+### **Unified API Serverless Hub**
+Our backend is located in `bch-agent-app/api-server.js`. It is optimized for Vercel Serverless but also supports local Node.js environments.
+- **Authentication:** JWT with Bcrypt hashing.
+- **Persistence:** Supabase (Cloud) or Mock JSON (Local).
+- **Communication:** REST API for CLI sync and Dashboard access.
+
+### **Environment Configuration**
+To connect your ecosystem, ensure these variables are set in your deployment platform:
+- `VITE_API_URL`: Points to your deployed domain.
+- `JWT_SECRET`: Secure token for session management.
+- `SUPABASE_URL`: Your database endpoint.
+- `SUPABASE_KEY`: Your database service role key.
 
 ---
 
-Built with ⚡ by **Antigravity**. 
-*Empowering the sovereign autonomous future on Bitcoin Cash.*
+## 🛡️ Security First
+Nexus is built with security as a core tenet:
+- **Vault Encryption:** Mnemonics are AES-256 encrypted in the `.vault` folder.
+- **Rate Limiting:** API endpoints are protected against brute-force attacks.
+- **Isolated Execution:** Each agent runs in its own logic container.
+
+---
+
+## 🤝 Community & Ecosystem
+Join the vanguard of BCH development. Build agents that don't just solve problems—they **solve them on-chain.**
+
+**Developed with ❤️ by the Nexus Core Team.**
+*Powered by Bitcoin Cash.*
