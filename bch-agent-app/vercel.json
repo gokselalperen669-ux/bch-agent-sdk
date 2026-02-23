@@ -5,6 +5,26 @@
     "framework": "vite",
     "rewrites": [
         {
+            "source": "/auth/(.*)",
+            "destination": "/api-server.js"
+        },
+        {
+            "source": "/agents(.*)",
+            "destination": "/api-server.js"
+        },
+        {
+            "source": "/wallets(.*)",
+            "destination": "/api-server.js"
+        },
+        {
+            "source": "/public/(.*)",
+            "destination": "/api-server.js"
+        },
+        {
+            "source": "/health",
+            "destination": "/api-server.js"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

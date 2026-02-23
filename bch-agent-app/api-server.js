@@ -206,4 +206,8 @@ if (fs.existsSync(distPath)) {
     });
 }
 
-app.listen(PORT, () => console.log(`🚀 Nexus Engine on port ${PORT} [Mode: ${isMockMode ? 'Mock' : 'Production'}]`));
+if (process.env.NODE_ENV !== 'production' || process.env.RUN_LOCAL === 'true') {
+    app.listen(PORT, () => console.log(`🚀 Nexus Engine on port ${PORT} [Mode: ${isMockMode ? 'Mock' : 'Production'}]`));
+}
+
+export default app;
