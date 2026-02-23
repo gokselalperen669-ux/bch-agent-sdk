@@ -13,7 +13,7 @@
         "dev": "tsc -w",
         "doctor": "node dist/cli/index.js doctor",
         "start": "node dist/cli/index.js",
-        "api": "node ../bch-agent-api/index.js",
+        "api": "node ../bch-agent-app/api-server.js",
         "app": "cd ../bch-agent-app && npm run dev"
     },
     "dependencies": {
