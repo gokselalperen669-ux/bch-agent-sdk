@@ -1,0 +1,22 @@
+services:
+  nexus-api:
+    build:
+      context: ./bch-agent-api
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - JWT_SECRET=production_secret_change_me
+    volumes:
+      - ./bch-agent-api/mock_db.json:/app/mock_db.json
+
+  nexus-app:
+    build:
+      context: ./bch-agent-app
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_URL=http://localhost:4000
+    depends_on:
+      - nexus-api

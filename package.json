@@ -8,12 +8,19 @@
     },
     "scripts": {
         "start": "node bch-agent-app/api-server.js",
-        "build": "cd bch-agent-app && npm install && npm run build"
+        "build": "cd bch-agent-app && npm install && npm run build",
+        "docker:up": "docker-compose up -d --build",
+        "docker:down": "docker-compose down"
     },
     "dependencies": {
-        "express": "^4.18.2",
+        "@supabase/supabase-js": "^2.48.1",
+        "bcryptjs": "^3.0.3",
+        "body-parser": "^2.2.2",
         "cors": "^2.8.5",
         "dotenv": "^17.3.1",
-        "@supabase/supabase-js": "^2.48.1"
+        "express": "^4.18.2",
+        "express-rate-limit": "^8.2.1",
+        "helmet": "^8.1.0",
+        "jsonwebtoken": "^9.0.3"
     }
 }
