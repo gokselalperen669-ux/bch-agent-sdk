@@ -1,22 +1,25 @@
 services:
-  nexus-api:
+  nexus-engine:
     build:
-      context: ./bch-agent-api
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
     environment:
       - NODE_ENV=production
       - PORT=4000
-      - JWT_SECRET=production_secret_change_me
-    volumes:
-      - ./bch-agent-api/mock_db.json:/app/mock_db.json
+      - JWT_SECRET=${JWT_SECRET:-nexus_secret_bolt_2026}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+    restart: always
 
-  nexus-app:
-    build:
-      context: ./bch-agent-app
-    ports:
-      - "80:80"
-    environment:
-      - VITE_API_URL=http://localhost:4000
-    depends_on:
-      - nexus-api
+  # Example of running a specific autonomous agent in its own container
+  # agent-alpha:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.agent
+  #   environment:
+  #     - AGENT_NAME=AlphaAgent
+  #     - AGENT_API_URL=http://nexus-engine:4000
+  #   depends_on:
+  #     - nexus-engine
