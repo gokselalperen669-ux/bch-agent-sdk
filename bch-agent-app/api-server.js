@@ -71,12 +71,13 @@ if (!supabaseUrl || !supabaseKey) {
                 }
             }),
             insert: (items) => {
-                if (table === 'agents') agentsStore.push(...items.map(i => ({ ...i, id: i.id || Date.now().toString() })));
-                if (table === 'users') usersStore.push(...items.map(i => ({ ...i, id: i.id || Date.now().toString() })));
-                if (table === 'logs') logsStore.push(...items);
-                if (table === 'wallets') walletsStore.push(...items);
+                const itemsWithIds = items.map(i => ({ ...i, id: i.id || (Math.random() * 1000000).toFixed(0) }));
+                if (table === 'agents') agentsStore.push(...itemsWithIds);
+                if (table === 'users') usersStore.push(...itemsWithIds);
+                if (table === 'logs') logsStore.push(...itemsWithIds);
+                if (table === 'wallets') walletsStore.push(...itemsWithIds);
                 saveData({ agents: agentsStore, wallets: walletsStore, logs: logsStore, users: usersStore });
-                return { select: () => ({ single: async () => ({ data: items[0], error: null }) }) };
+                return { select: () => ({ single: async () => ({ data: itemsWithIds[0], error: null }) }) };
             },
             update: (updates) => ({
                 eq: (col, val) => {
@@ -206,7 +207,9 @@ if (fs.existsSync(distPath)) {
     });
 }
 
-if (process.env.NODE_ENV !== 'production' || process.env.RUN_LOCAL === 'true') {
+// Check if we should start the standalone server (Docker/Local) or export for Serverless (Vercel)
+const isVercel = process.env.VERCEL === '1';
+if (!isVercel || process.env.RUN_LOCAL === 'true') {
     app.listen(PORT, () => console.log(`🚀 Nexus Engine on port ${PORT} [Mode: ${isMockMode ? 'Mock' : 'Production'}]`));
 }
 

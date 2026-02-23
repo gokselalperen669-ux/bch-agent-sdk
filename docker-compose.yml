@@ -12,6 +12,8 @@ services:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_KEY=${SUPABASE_KEY}
     restart: always
+    volumes:
+      - ./bch-agent-app/db.json:/app/bch-agent-app/db.json
 
   # Example of running a specific autonomous agent in its own container
   # agent-alpha:

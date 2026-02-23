@@ -82,6 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 id: userData.id,
                 email: userData.email,
                 name: userData.name,
+                avatar: userData.avatar,
                 token: userData.token,
                 inventory: []
             };

@@ -16,4 +16,13 @@ export default defineConfig({
     }
   },
   plugins: [react()],
+  server: {
+    proxy: {
+      '/auth': 'http://localhost:4000',
+      '/agents': 'http://localhost:4000',
+      '/wallets': 'http://localhost:4000',
+      '/public': 'http://localhost:4000',
+      '/health': 'http://localhost:4000',
+    }
+  }
 })

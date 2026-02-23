@@ -14,9 +14,11 @@ RUN apt-get update && apt-get install -y \
 
 # Copy package files
 COPY package*.json ./
+COPY bch-agent-sdk/package*.json ./bch-agent-sdk/
 
 # Install dependencies
 RUN npm install
+RUN cd bch-agent-sdk && npm install
 
 # Install ts-node globally to run agents directly
 RUN npm install -g ts-node typescript
