@@ -1,0 +1,16 @@
+{
+  "name": "BCH-Agent-HQ",
+  "network": "testnet4",
+  "ai": {
+    "provider": "openai",
+    "model": "gpt-4o",
+    "apiKey": "sk-your-key-here"
+  },
+  "agents": {
+    "MySuperAgent": {
+      "type": "defi",
+      "createdAt": "2026-02-23T13:51:53.954Z",
+      "status": "offline"
+    }
+  }
+}

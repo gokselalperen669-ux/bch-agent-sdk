@@ -1,0 +1,17 @@
+pragma cashscript ^0.10.0;
+
+/**
+ * NFT Agent - Managed CashTokens Identity
+ */
+contract NFTAgent(pubkey ownerPk, bytes20 agentId) {
+    function mint(sig ownerSig, bytes commitment) {
+        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
+        // Requirement: Output 1 must be an NFT with the new commitment
+        require(tx.outputs[0].nftCommitment == commitment);
+        require(agentId != bytes20(0));
+    }
+
+    function transferNFT(sig ownerSig) {
+        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
+    }
+}

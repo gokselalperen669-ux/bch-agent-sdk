@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bch-nexus-global-hq
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.x
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=450
+      - key: PORT
+        value: 4000

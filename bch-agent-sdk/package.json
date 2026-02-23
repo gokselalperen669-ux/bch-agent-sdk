@@ -1,0 +1,40 @@
+{
+    "name": "@bch-agent/sdk",
+    "version": "1.0.0",
+    "description": "BCH Agent Developer Framework",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "bin": {
+        "bch-agent": "./dist/cli/index.js"
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc -w",
+        "doctor": "node dist/cli/index.js doctor",
+        "start": "node dist/cli/index.js",
+        "api": "node ../bch-agent-api/index.js",
+        "app": "cd ../bch-agent-app && npm run dev"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.48.1",
+        "axios": "^1.6.0",
+        "bip32": "^4.0.0",
+        "bip39": "^3.1.0",
+        "cashaddrjs": "^0.4.4",
+        "cashc": "^0.10.0",
+        "cashscript": "^0.10.0",
+        "chalk": "^5.3.0",
+        "commander": "^11.1.0",
+        "dotenv": "^16.3.1",
+        "ecpair": "^2.1.0",
+        "inquirer": "^9.2.12",
+        "tiny-secp256k1": "^2.2.3"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "@types/bip39": "^3.0.0",
+        "@types/inquirer": "^9.0.7",
+        "typescript": "^5.3.0"
+    }
+}

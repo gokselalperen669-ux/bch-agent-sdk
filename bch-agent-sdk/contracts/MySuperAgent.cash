@@ -1,0 +1,9 @@
+pragma cashscript ^0.10.0;
+
+contract MySuperAgent(pubkey ownerPk, bytes20 agentId, int maxTransactionAmount) {
+    function execute(sig ownerSig, int amount) {
+        require(checkSig(ownerSig, ownerPk));
+        require(amount <= maxTransactionAmount);
+        require(agentId != bytes20(0));
+    }
+}

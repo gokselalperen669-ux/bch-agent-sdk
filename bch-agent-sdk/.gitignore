@@ -1,0 +1,11 @@
+node_modules
+dist
+.vault
+.env
+*.json
+!package.json
+!tsconfig.json
+!agent.config.json
+!railway.json
+!render.yaml
+.git

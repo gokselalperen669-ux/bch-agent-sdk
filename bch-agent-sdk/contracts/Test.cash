@@ -1,0 +1,6 @@
+pragma cashscript ^0.10.0;
+contract Test(bytes20 id, pubkey pk) {
+    function call(sig s) {
+        require(checkSig(s, pk));
+    }
+}

@@ -1,0 +1,22 @@
+pragma cashscript ^0.10.0;
+
+/**
+ * DeFi Agent - Automated Trading & Arbitrage
+ * Security: Owner-only + Explicit Spending Limits
+ */
+contract DeFiAgent(
+    pubkey ownerPk, 
+    bytes20 agentId,
+    int maxTransactionAmount
+) {
+    function execute(sig ownerSig, int amount) {
+        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
+        require(amount <= maxTransactionAmount);
+        require(amount > 0);
+    }
+
+    function withdraw(sig ownerSig, int amount) {
+        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
+        require(amount > 0);
+    }
+}
