@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  agent:
+    build: .
+    volumes:
+      - ./.vault:/app/.vault
+    environment:
+      - AGENT_API_URL=${AGENT_API_URL:-http://localhost:4000}
+      - AGENT_CONFIG_PASSWORD=default
+    restart: always

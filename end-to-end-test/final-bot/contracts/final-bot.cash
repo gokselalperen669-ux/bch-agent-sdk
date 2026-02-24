@@ -1,0 +1,6 @@
+pragma cashscript ^0.12.0;
+contract FinalBot(bytes20 a, bytes20 b, bytes20 c) {
+    function execute() {
+        require(a == b);
+    }
+}

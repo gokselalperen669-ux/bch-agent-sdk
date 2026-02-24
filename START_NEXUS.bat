@@ -11,6 +11,7 @@ echo 🌐 Web Dashboard: http://localhost:5173
 echo 🛰️ API Endpoint:   http://localhost:4000
 echo.
 echo Use 'bch-agent login' in your CLI to connect.
-echo After deployment, use 'bch-agent sync' to see agents on the dashboard.
+echo Run 'bch-agent workflow' to see your next steps.
+echo Use 'bch-agent start <name>' to launch 7/24 autonomous bots.
 echo.
 pause

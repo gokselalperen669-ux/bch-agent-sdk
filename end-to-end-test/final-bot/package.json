@@ -1,0 +1,13 @@
+{
+  "name": "final-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@bch-agent/sdk": "^1.0.0"
+  },
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "build": "tsc",
+    "dev": "tsc -w"
+  }
+}

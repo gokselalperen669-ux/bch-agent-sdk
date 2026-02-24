@@ -6,26 +6,30 @@
     "rewrites": [
         {
             "source": "/auth/(.*)",
-            "destination": "/api-server.js"
+            "destination": "/api/index.js"
         },
         {
             "source": "/agents(.*)",
-            "destination": "/api-server.js"
+            "destination": "/api/index.js"
         },
         {
             "source": "/wallets(.*)",
-            "destination": "/api-server.js"
+            "destination": "/api/index.js"
         },
         {
-            "source": "/public/(.*)",
-            "destination": "/api-server.js"
+            "source": "/public/agents",
+            "destination": "/api/index.js"
+        },
+        {
+            "source": "/public/logs",
+            "destination": "/api/index.js"
         },
         {
             "source": "/health",
-            "destination": "/api-server.js"
+            "destination": "/api/index.js"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!assets/|api/|favicon.ico|logo.png|.*\\..*).*)",
             "destination": "/index.html"
         }
     ]

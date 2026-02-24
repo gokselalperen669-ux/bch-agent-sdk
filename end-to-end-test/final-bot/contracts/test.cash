@@ -1,0 +1,4 @@
+pragma cashscript ^0.12.0;
+contract Test(pubkey a, pubkey b) {
+    function x() { require(a == b); }
+}

@@ -1,0 +1,16 @@
+pragma cashscript ^0.12.0;
+
+/**
+ * test1 - Autonomous Agent Contract
+ * Network: testnet4
+ */
+contract test1(pubkey ownerPk, bytes20 agentId) {
+    function execute(sig ownerSig) {
+        require(checkSig(ownerSig, ownerPk));
+    }
+
+    function withdraw(sig ownerSig, int amount) {
+        require(checkSig(ownerSig, ownerPk));
+        require(amount > 0);
+    }
+}
