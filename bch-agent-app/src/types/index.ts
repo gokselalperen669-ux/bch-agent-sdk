@@ -26,9 +26,11 @@ export interface Agent {
     ticker?: string;
     supply?: string;
     category?: string;
-    status?: 'active' | 'inactive' | 'online';
+    status?: 'active' | 'inactive' | 'online' | 'graduated';
     liquidity?: string;
     description?: string;
+    holders?: number;
+    bondingCurveProgress?: number;
 }
 
 export interface Log {

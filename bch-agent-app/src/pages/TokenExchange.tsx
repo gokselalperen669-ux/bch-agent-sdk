@@ -43,13 +43,16 @@ const TokenExchange = () => {
         try {
             const priceRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin-cash&vs_currencies=usd');
             const priceData = await priceRes.json();
-            setBchPrice(priceData['bitcoin-cash'].usd);
+            if (priceData && priceData['bitcoin-cash']) {
+                setBchPrice(priceData['bitcoin-cash'].usd);
+            }
 
             const agentsRes = await fetch(getApiUrl('/public/agents'));
             const agentsData = await agentsRes.json();
+            const agentsArray = Array.isArray(agentsData) ? agentsData : [];
 
             // Map REAL tokenized agents
-            const mappedAgents = agentsData.map((a: { id: string; name: string; ticker?: string; status?: string; holders?: number; description?: string; type?: string; bondingCurveProgress?: number }) => ({
+            const mappedAgents = agentsArray.map((a: { id: string; name: string; ticker?: string; status?: string; holders?: number; description?: string; type?: string; bondingCurveProgress?: number }) => ({
                 id: a.id,
                 name: a.name,
                 ticker: a.ticker || a.name.substring(0, 4).toUpperCase(),
@@ -67,7 +70,7 @@ const TokenExchange = () => {
 
             setAgents(mappedAgents.reverse());
         } catch (err) {
-            console.error(err);
+            console.error('Fetch Exchange Data Error:', err);
         } finally {
             setIsLoading(false);
         }
@@ -251,10 +254,10 @@ const TokenExchange = () => {
                                         </div>
                                     </td>
                                     <td className="py-6 px-10 text-right font-mono text-xs font-bold text-white italic">{agent.price}</td>
-                                    <td className={`py-6 px-10 text-right font-black text-xs italic ${agent.change24h.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+                                    <td className={`py-6 px-10 text-right font-black text-xs italic ${(agent.change24h && agent.change24h.startsWith('+')) ? 'text-green-400' : 'text-red-400'}`}>
                                         <div className="flex items-center justify-end gap-1">
-                                            {agent.change24h.startsWith('+') ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                                            {agent.change24h}
+                                            {(agent.change24h && agent.change24h.startsWith('+')) ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                                            {agent.change24h || '0.0%'}
                                         </div>
                                     </td>
                                     <td className="py-6 px-10">

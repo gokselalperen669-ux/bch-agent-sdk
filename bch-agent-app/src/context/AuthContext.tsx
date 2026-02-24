@@ -21,7 +21,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const savedUser = localStorage.getItem('nexus_user');
         if (savedUser) {
             try {
-                setUser(JSON.parse(savedUser));
+                const parsed = JSON.parse(savedUser);
+                if (parsed && typeof parsed === 'object' && parsed.token) {
+                    setUser(parsed);
+                } else {
+                    localStorage.removeItem('nexus_user');
+                }
             } catch {
                 localStorage.removeItem('nexus_user');
             }

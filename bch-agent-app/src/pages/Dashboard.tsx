@@ -15,8 +15,8 @@ const StatsCard = ({ icon: Icon, label, value, delta }: { icon: ElementType, lab
             <div className="p-3 rounded-xl bg-white/5 border border-white/5">
                 <Icon size={20} className="text-primary-color" />
             </div>
-            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${delta.startsWith('+') ? 'bg-green-500/10 text-green-400' : 'bg-white/5 text-text-secondary'}`}>
-                {delta}
+            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${(delta && typeof delta === 'string' && delta.startsWith('+')) ? 'bg-green-500/10 text-green-400' : 'bg-white/5 text-text-secondary'}`}>
+                {delta || '---'}
             </span>
         </div>
         <div>
@@ -46,21 +46,25 @@ const Dashboard = () => {
             .then(res => res.json())
             .then(data => {
                 const bch = data['bitcoin-cash'];
-                setMarket(prev => ({
-                    ...prev,
-                    price: bch.usd.toFixed(2),
-                    change: (bch.usd_24h_change >= 0 ? '+' : '') + bch.usd_24h_change.toFixed(2) + '%'
-                }));
+                if (bch) {
+                    setMarket(prev => ({
+                        ...prev,
+                        price: bch.usd.toFixed(2),
+                        change: (bch.usd_24h_change >= 0 ? '+' : '') + bch.usd_24h_change.toFixed(2) + '%'
+                    }));
+                }
             }).catch(() => { });
 
         fetch('https://chipnet.imaginary.cash/api/v1/status')
             .then(res => res.json())
             .then(data => {
-                setMarket(prev => ({ ...prev, height: (data.height || 812492).toLocaleString() }));
+                if (data && data.height) {
+                    setMarket(prev => ({ ...prev, height: data.height.toLocaleString() }));
+                }
             }).catch(() => { });
 
         // Fetch logs and agents from API
-        if (!user?.token) {
+        if (!user || !user.token) {
             setIsDataLoading(false);
             return;
         }
@@ -78,23 +82,25 @@ const Dashboard = () => {
 
             if (logsRes.ok) {
                 const logData = await logsRes.json();
-                setLogs(logData);
+                setLogs(Array.isArray(logData) ? logData : []);
             }
 
             if (agentsRes.ok) {
                 const agents = await agentsRes.json();
-                setActivities(agents);
-                setStats(prev => ({ ...prev, agents: agents.length.toString() }));
+                const agentsArray = Array.isArray(agents) ? agents : [];
+                setActivities(agentsArray);
+                setStats(prev => ({ ...prev, agents: agentsArray.length.toString() }));
 
                 if (selectedAgent) {
-                    const updated = agents.find((a: Agent) => a.id === selectedAgent.id);
+                    const updated = agentsArray.find((a: Agent) => a.id === selectedAgent.id);
                     if (updated) setSelectedAgent(updated);
                 }
             }
 
             if (walletsRes.ok) {
                 const wallets = await walletsRes.json();
-                const totalBalance = wallets.reduce((acc: number, w: { balance?: string }) => acc + parseFloat(w.balance || '0'), 0);
+                const walletsArray = Array.isArray(wallets) ? wallets : [];
+                const totalBalance = walletsArray.reduce((acc: number, w: { balance?: string }) => acc + parseFloat(w.balance || '0'), 0);
                 setStats(prev => ({ ...prev, value: totalBalance.toFixed(2) }));
             }
         } catch (err) {

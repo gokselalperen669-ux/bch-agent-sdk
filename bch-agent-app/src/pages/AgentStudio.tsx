@@ -90,19 +90,20 @@ const AgentStudio = () => {
             const agentsData = await agentsRes.json();
             const logsData = await logsRes.json();
 
-            setLogs(logsData.slice(0, 8));
+            setLogs(Array.isArray(logsData) ? logsData.slice(0, 8) : []);
 
-            const mappedNfts = agentsData.map((a: Agent) => ({
+            const agentsArray = Array.isArray(agentsData) ? agentsData : [];
+            const mappedNfts = agentsArray.map((a: Agent) => ({
                 id: `nft-${a.id}`,
                 agentName: a.name,
                 agentId: a.agentId || a.id,
                 title: `${a.name.split(' ')[0]} Proof-of-State`,
                 description: a.description || `Autonomous state commitment hash recorded by ${a.name}.`,
                 image: `https://api.dicebear.com/7.x/identicon/svg?seed=${a.name}&backgroundColor=000000`,
-                supply: 1,
-                price: '0.25 BCH',
-                status: a.type === 'nft' ? 'minting' : 'listed',
-                lastActivity: 'Stable'
+                supply: a.holders || 100,
+                price: '0.05 BCH',
+                status: (a.status === 'online' ? 'listed' : (a.status === 'graduated' ? 'sold' : 'minting')) as 'listed' | 'minting' | 'sold',
+                lastActivity: a.createdAt || new Date().toISOString()
             }));
 
             setNfts(mappedNfts);
