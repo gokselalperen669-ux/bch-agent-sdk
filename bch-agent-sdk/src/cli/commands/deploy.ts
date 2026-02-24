@@ -25,7 +25,8 @@ export const deployCommand = new Command('deploy')
                 console.log(chalk.white('   Deploying agents requires a verified Web Account.'));
                 console.log(chalk.cyan('   Opening Browser to Login/Register...'));
 
-                const url = 'http://localhost:5173/login';
+                const DASHBOARD_URL = process.env.AGENT_DASHBOARD_URL || 'http://localhost:5173';
+                const url = `${DASHBOARD_URL}/login`;
                 const start = process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start ""' : 'xdg-open';
                 require('child_process').exec(`${start} ${url}`);
 

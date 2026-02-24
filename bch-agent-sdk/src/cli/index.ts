@@ -18,6 +18,8 @@ import { marketCommand } from './commands/market.js';
 import { tokenCommand } from './commands/token.js';
 import { loginCommand } from './commands/login.js';
 import { logoutCommand } from './commands/logout.js';
+import { startCommand } from './commands/start.js';
+import { workflowCommand } from './commands/workflow.js';
 
 const program = new Command();
 
@@ -31,6 +33,8 @@ program.addCommand(logoutCommand);
 program.addCommand(initCommand);
 program.addCommand(compileCommand);
 program.addCommand(deployCommand);
+program.addCommand(startCommand);
+program.addCommand(workflowCommand);
 program.addCommand(walletCommand);
 program.addCommand(statusCommand);
 program.addCommand(agentCommand);

@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import chalk from 'chalk';
 import * as crypto from 'crypto';
+import { SyncService } from '../utils/sync.js';
 
 export interface AutonomousAgentConfig extends AgentConfig {
     artifactPath: string;
@@ -120,6 +121,9 @@ export class AutonomousAgent extends BchAgent {
         // Also stdout with colors
         const color = level === 'error' ? chalk.red : level === 'ai' ? chalk.magenta : level === 'warn' ? chalk.yellow : chalk.gray;
         console.log(color(line.trim()));
+
+        // Sync with API for Web Dashboard
+        SyncService.syncLog(this.name, level, message);
     }
 
     async runAutonomousCycle(triggerContext: string): Promise<void> {

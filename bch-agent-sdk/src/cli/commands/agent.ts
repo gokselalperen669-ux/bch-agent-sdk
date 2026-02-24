@@ -98,8 +98,12 @@ async function main() {
         }
     }
 
+    // Load deployment info if available
+    const deployment = config.deployments?.["${sanitizedName}"];
+    
     const agent = new AutonomousAgent({
         name: "${sanitizedName}",
+        agentId: deployment?.agentId,
         network: config.network || "testnet4",
         artifactPath: "./contracts/${sanitizedName}.json",
         provider: ProviderFactory.getProvider(config.network),
@@ -109,12 +113,21 @@ async function main() {
     });
 
     await agent.initialize();
-    console.log(chalk.green("🚀 ${sanitizedName} is ONLINE."));
+    console.log(chalk.green("🚀 ${sanitizedName} is ONLINE on " + config.network));
+    
+    // Initial sync
+    await SyncService.syncStatus("${sanitizedName}", "online");
 
     // Loop
     setInterval(async () => {
-        await agent.runAutonomousCycle("System Heartbeat");
-    }, 60000);
+        try {
+            await agent.runAutonomousCycle("System Heartbeat");
+            await SyncService.syncStatus("${sanitizedName}", "online");
+        } catch (e: any) {
+            console.error(chalk.red("❌ Cycle Error:"), e.message);
+            await SyncService.syncStatus("${sanitizedName}", "error");
+        }
+    }, 600000); // 10 minutes
 }
 
 main().catch(console.error);

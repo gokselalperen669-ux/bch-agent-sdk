@@ -44,4 +44,36 @@ export class SyncService {
             // Ignore sync errors
         }
     }
+
+    static async syncLog(agentName: string, level: string, message: string) {
+        const auth = getAuth();
+        if (!auth.user || !auth.user.token) return;
+
+        try {
+            await axios.post(`${API_URL}/agents/logs`, {
+                agentName,
+                level,
+                message,
+                timestamp: new Date().toISOString()
+            }, {
+                headers: { 'Authorization': `Bearer ${auth.user.token}` }
+            });
+        } catch (e) {
+            // Silence sync errors to avoid crashing the runner
+        }
+    }
+
+    static async syncStatus(name: string, status: 'online' | 'offline' | 'error') {
+        const auth = getAuth();
+        if (!auth.user || !auth.user.token) return;
+
+        try {
+            await axios.patch(`${API_URL}/agents/status`, {
+                name,
+                status
+            }, {
+                headers: { 'Authorization': `Bearer ${auth.user.token}` }
+            });
+        } catch (e) { }
+    }
 }

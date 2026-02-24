@@ -5,49 +5,62 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 export const initCommand = new Command('init')
-    .description('Initialize a new BCH Agent project environment (Interactive)')
+    .description('Initialize a new BCH Agent project environment')
     .argument('[project-name]', 'Name of the project folder')
-    .action(async (projectName) => {
+    .option('-y, --yes', 'Skip prompts and use defaults')
+    .option('-n, --network <net>', 'Network (testnet4, mainnet, chipnet)', 'testnet4')
+    .option('-a, --ai <provider>', 'AI Provider (openai, anthropic, local, none)', 'openai')
+    .action(async (projectName, options) => {
         console.log(chalk.bold.cyan('\n🛡️  BCH Agent Framework - Project Initializer\n'));
 
-        const answers = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'name',
-                message: 'Project name:',
-                default: projectName || 'my-bch-agent',
-                validate: (input) => input.length > 0 ? true : 'Project name is required'
-            },
-            {
-                type: 'list',
-                name: 'network',
-                message: 'Target Network:',
-                choices: [
-                    { name: 'Testnet4 (Development - Recommended)', value: 'testnet4' },
-                    { name: 'Mainnet (Production)', value: 'mainnet' },
-                    { name: 'Chipnet (Staging)', value: 'chipnet' }
-                ],
-                default: 'testnet4'
-            },
-            {
-                type: 'list',
-                name: 'aiProvider',
-                message: 'AI LLM Provider:',
-                choices: [
-                    { name: 'OpenAI (GPT-4)', value: 'openai' },
-                    { name: 'Anthropic (Claude)', value: 'anthropic' },
-                    { name: 'Local / Ollama', value: 'local' },
-                    { name: 'None (Logic Only)', value: 'none' }
-                ],
-                default: 'openai'
-            },
-            {
-                type: 'confirm',
-                name: 'gitInit',
-                message: 'Initialize git repository?',
-                default: true
-            }
-        ]);
+        let answers;
+        if (options.yes) {
+            answers = {
+                name: projectName || 'my-bch-agent',
+                network: options.network || 'testnet4',
+                aiProvider: options.ai || 'openai',
+                gitInit: true
+            };
+        } else {
+            answers = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'Project name:',
+                    default: projectName || 'my-bch-agent',
+                    validate: (input) => input.length > 0 ? true : 'Project name is required'
+                },
+                {
+                    type: 'list',
+                    name: 'network',
+                    message: 'Target Network:',
+                    choices: [
+                        { name: 'Testnet4 (Development - Recommended)', value: 'testnet4' },
+                        { name: 'Mainnet (Production)', value: 'mainnet' },
+                        { name: 'Chipnet (Staging)', value: 'chipnet' }
+                    ],
+                    default: 'testnet4'
+                },
+                {
+                    type: 'list',
+                    name: 'aiProvider',
+                    message: 'AI LLM Provider:',
+                    choices: [
+                        { name: 'OpenAI (GPT-4)', value: 'openai' },
+                        { name: 'Anthropic (Claude)', value: 'anthropic' },
+                        { name: 'Local / Ollama', value: 'local' },
+                        { name: 'None (Logic Only)', value: 'none' }
+                    ],
+                    default: 'openai'
+                },
+                {
+                    type: 'confirm',
+                    name: 'gitInit',
+                    message: 'Initialize git repository?',
+                    default: true
+                }
+            ]);
+        }
 
         const projectDir = path.join(process.cwd(), answers.name);
         if (fs.existsSync(projectDir)) {
@@ -148,8 +161,11 @@ async function main() {
     const ownerPrivKey = WalletManager.deriveKeyPair(mnemonic, 0);
 
     // 3. Initialize Agent
+    const deployment = config.deployments?.["${answers.name}"];
+    
     const agent = new AutonomousAgent({
         name: "${answers.name}",
+        agentId: deployment?.agentId,
         network: config.network,
         artifactPath: path.join(process.cwd(), 'contracts', '${answers.name}.json'),
         provider: ProviderFactory.getProvider(config.network),
@@ -159,10 +175,23 @@ async function main() {
     });
 
     await agent.initialize();
-    console.log("🚀 Agent Address:", agent.getAddress());
-    console.log("🟢 Agent Status: ACTIVE on " + config.network);
+    console.log(chalk.green("🚀 Agent ONLINE on " + config.network));
+    console.log("   Address: " + agent.getAddress());
 
-    await agent.runAutonomousCycle("Startup initialization complete.");
+    // Main Autonomous Loop
+    const cycle = async () => {
+        try {
+            await agent.runAutonomousCycle("Autonomous maintenance cycle.");
+        } catch (e: any) {
+            console.error(chalk.red("❌ Cycle Error:"), e.message);
+        }
+    };
+
+    // Initial run
+    await cycle();
+    
+    // Schedule (15 mins)
+    setInterval(cycle, 15 * 60 * 1000);
 }
 
 main().catch(console.error);`;
@@ -178,16 +207,33 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN if [ -f \"tsconfig.json\" ]; then npx tsc; fi
-CMD [\"npm\", \"start\"]`;
+# Use global or local bch-agent for production loop
+CMD [\"npx\", \"bch-agent\", \"start\", \"${answers.name}\"]`;
         fs.writeFileSync(path.join(projectDir, 'Dockerfile'), dockerfileContent);
+
+        // docker-compose.yml
+        const composeContent = `version: '3.8'
+services:
+  agent:
+    build: .
+    volumes:
+      - ./.vault:/app/.vault
+    environment:
+      - AGENT_API_URL=\${AGENT_API_URL:-http://localhost:4000}
+      - AGENT_CONFIG_PASSWORD=default
+    restart: always
+`;
+        fs.writeFileSync(path.join(projectDir, 'docker-compose.yml'), composeContent);
 
         console.log(chalk.green(`\n✅ Project "${answers.name}" initialized successfully!`));
         console.log(chalk.white(`\n👉 Next steps:`));
         console.log(chalk.gray(`   1. cd ${answers.name}`));
         console.log(chalk.gray(`   2. npm install`));
-        console.log(chalk.gray(`   3. bch-agent wallet create`));
-        console.log(chalk.gray(`   4. bch-agent compile`));
-        console.log(chalk.gray(`   5. npm start`));
+        console.log(chalk.gray(`   3. bch-agent login`));
+        console.log(chalk.gray(`   4. bch-agent wallet setup`));
+        console.log(chalk.gray(`   5. bch-agent compile`));
+        console.log(chalk.gray(`   6. bch-agent deploy ${answers.name}`));
+        console.log(chalk.gray(`   7. bch-agent start ${answers.name} (7/24 loop)`));
     });
 
 

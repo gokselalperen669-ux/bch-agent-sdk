@@ -106,7 +106,8 @@ tokenCommand.command('list <agent-name> <price>')
 
         await new Promise(r => setTimeout(r, 1000));
 
-        console.log(chalk.green('\n✅ Listing created! View at: http://localhost:5173/marketplace'));
+        const DASHBOARD_URL = process.env.AGENT_DASHBOARD_URL || 'http://localhost:5173';
+        console.log(chalk.green(`\n✅ Listing created! View at: ${DASHBOARD_URL}/marketplace`));
     });
 
 function updateConfig(agentName: string, data: any) {
