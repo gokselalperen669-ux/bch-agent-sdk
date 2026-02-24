@@ -22,7 +22,7 @@ const Settings: React.FC = () => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
-        if (user?.id) {
+        if (user?.id && supabase) {
             supabase
                 .from('user_settings')
                 .select('*')
@@ -34,11 +34,13 @@ const Settings: React.FC = () => {
                     }
                     setIsLoading(false);
                 });
+        } else {
+            setIsLoading(false);
         }
     }, [user?.id]);
 
     const handleSave = async () => {
-        if (!user?.id) return;
+        if (!user?.id || !supabase) return;
         setIsSaving(true);
         try {
             const { error } = await supabase

@@ -38,7 +38,10 @@ const Vault = () => {
     const [isSaving, setIsSaving] = useState(false);
 
     const fetchVaultData = useCallback(async () => {
-        if (!user?.id) return;
+        if (!user?.id || !supabase) {
+            setLoading(false);
+            return;
+        }
         setLoading(true);
         try {
             const [walletRes, agentRes] = await Promise.all([
@@ -86,7 +89,7 @@ const Vault = () => {
     };
 
     const handleAddWallet = async () => {
-        if (!user?.id || !newWalletName || !newWalletAddress) return;
+        if (!user?.id || !newWalletName || !newWalletAddress || !supabase) return;
         setIsSaving(true);
         try {
             const { error } = await supabase.from('wallets').insert({
