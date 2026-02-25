@@ -50,28 +50,48 @@ export class AutonomousAgent extends BchAgent {
 
 
     /**
-     * Universal Withdrawal Method
+     * Autonomous Execution with Proof-of-State
      */
-    async withdrawFunds(amount: number, toAddress: string): Promise<string> {
+    async executeAutonomousAction(amount: number, recipient: string, reasoning: string): Promise<string> {
         if (!this.contract) throw new Error('Agent not initialized');
-        const signer = new SignatureTemplate(this.ownerPrivKey.privateKey!);
 
-        // @ts-ignore
-        const tx = await this.contract.functions.withdraw(signer, BigInt(amount))
-            .to(toAddress, BigInt(amount))
-            .send();
+        // 1. Generate State Commitment (Proof of Reasoning)
+        const stateHash = crypto.createHash('sha256')
+            .update(`${reasoning}:${Date.now()}`)
+            .digest()
+            .slice(0, 20); // bytes20 for contract compatibility
 
-        return tx.txid;
+        console.log(chalk.cyan(`📝 Etching Proof-of-State on-chain: ${stateHash.toString('hex')}`));
+
+        // 2. Build Transaction according to v2 Covenant rules
+        const utxos = await this.provider.getUtxos(this.contract.address);
+        const nftUtxo = utxos.find(u => u.token?.nft);
+
+        if (!nftUtxo) {
+            throw new Error('State NFT not found in contract. Autonomous execution requires a persistent State NFT.');
+        }
+
+        // recipient address to bytes20 (mocking for now, in real we need to decode address)
+        // for simplicity in this SDK version, we expect a hex for recipient in the param or use a helper
+        const recipientBytes = Buffer.alloc(20, 0); // Placeholder
+
+        try {
+            // @ts-ignore
+            const tx = await this.contract.functions.executeAction(
+                BigInt(amount),
+                recipientBytes,
+                stateHash
+            )
+                .from(utxos)
+                .to(this.contract.address, 1000n, { token: { ...nftUtxo.token, nft: { ...nftUtxo.token!.nft!, commitment: stateHash } } })
+                .to(recipient, BigInt(amount))
+                .send();
+
+            return tx.txid;
+        } catch (e: any) {
+            throw new Error(`On-chain enforcement rejected action: ${e.message}`);
+        }
     }
-
-    /**
-     * Transfer funds to another address or agent
-     */
-    async transfer(to: string, amount: number): Promise<string> {
-        console.log(`💸 Agent transferring ${amount} satoshis to ${to}...`);
-        return this.withdrawFunds(amount, to);
-    }
-
 
     async executeAction(actionName: string, params: any[]): Promise<string> {
         if (!this.contract) throw new Error('Agent not initialized');
@@ -118,11 +138,9 @@ export class AutonomousAgent extends BchAgent {
         const line = `[${timestamp}] [${level.toUpperCase()}] ${message}\n`;
         fs.appendFileSync(logFile, line);
 
-        // Also stdout with colors
         const color = level === 'error' ? chalk.red : level === 'ai' ? chalk.magenta : level === 'warn' ? chalk.yellow : chalk.gray;
         console.log(color(line.trim()));
 
-        // Sync with API for Web Dashboard
         SyncService.syncLog(this.name, level, message);
     }
 
@@ -134,13 +152,10 @@ export class AutonomousAgent extends BchAgent {
         }
 
         try {
-            // Load Memory
             const memoryPath = path.join(process.cwd(), '.vault', `${this.name}.memory.json`);
             let history: string[] = [];
             if (fs.existsSync(memoryPath)) {
-                try {
-                    history = JSON.parse(fs.readFileSync(memoryPath, 'utf8'));
-                } catch (e) { }
+                try { history = JSON.parse(fs.readFileSync(memoryPath, 'utf8')); } catch (e) { }
             }
 
             const state = await this.syncState();
@@ -148,33 +163,41 @@ export class AutonomousAgent extends BchAgent {
                 Agent: ${this.name}
                 Address: ${this.getAddress()}
                 Current Balance: ${state.balance} satoshis
-                Current State (Commitment): ${state.commitment || 'None'}
+                On-Chain State Commitment: ${state.commitment || 'None'}
                 Trigger: ${triggerContext}
+                Contract Rules: Max Spend 500,000 sats, Must update commitment.
             `;
 
             const decision = await this.aiEngine.decide(context, history);
 
             this.log(`Reasoning: ${decision.reasoning}`, 'ai');
-            this.log(`Decision: ${decision.action}(${JSON.stringify(decision.params)})`, 'ai');
 
-            if (decision.action !== 'stayIdle') {
+            if (decision.action === 'transfer' || decision.action === 'withdrawFunds') {
+                const amount = decision.params[1] || decision.params[0];
+                const recipient = decision.params[0] || decision.params[1];
+
+                this.log(`Protocol Check: Enforcing on-chain settlement for ${amount} sats to ${recipient}`, 'info');
+                const txid = await this.executeAutonomousAction(Number(amount), String(recipient), decision.reasoning);
+                this.log(`Proof-of-State recorded in TX: ${txid}`, 'info');
+
+                history.push(`${decision.action} - ${decision.reasoning} (On-chain Proof: ${txid.substring(0, 8)})`);
+            } else if (decision.action !== 'stayIdle') {
+                // Generic action handler
                 const txid = await this.executeAction(decision.action, decision.params);
                 this.log(`Transaction successful: ${txid}`, 'info');
-
-                // Update History
                 history.push(`${decision.action} - ${decision.reasoning} (TX: ${txid.substring(0, 8)})`);
             } else {
                 this.log('Agent decided to stay idle.', 'info');
                 history.push(`stayIdle - ${decision.reasoning}`);
             }
 
-            // Save Memory (Keep last 10)
+            // Save Memory
             const updatedHistory = history.slice(-10);
             if (!fs.existsSync(path.dirname(memoryPath))) fs.mkdirSync(path.dirname(memoryPath), { recursive: true });
             fs.writeFileSync(memoryPath, JSON.stringify(updatedHistory, null, 2));
 
         } catch (e: any) {
-            this.log(`Cycle Error: ${e.message}`, 'error');
+            this.log(`Cycle Execution Failed (Protocol Violation?): ${e.message}`, 'error');
         }
     }
 }

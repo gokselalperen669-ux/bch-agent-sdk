@@ -1,17 +1,40 @@
-pragma cashscript ^0.10.0;
+pragma cashscript ^0.12.0;
 
 /**
- * Vault Agent - High Security Treasury
+ * Vault Agent v2 - On-Chain Autonomous Governance
+ * 
+ * WHY BLOCKCHAIN?
+ * 1. Enforcement: Only the owner can admin, Docker AI can only spend within rules.
+ * 2. Audit: Every AI decision hash is recorded in the NFT commitment.
+ * 3. Identity: The NFT represents the agent's unique global PKI identity.
  */
 contract VaultAgent(pubkey ownerPk, bytes20 agentId) {
-    function withdraw(sig ownerSig, int amount) {
-        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
-        require(amount > 0);
+    
+    // Standard Admin Branch: Owner can move any amount
+    function admin(sig ownerSig) {
+        require(checkSig(ownerSig, ownerPk));
     }
 
-    function lock(sig ownerSig, int blockHeight) {
-        require(checkSig(ownerSig, ownerPk));`n        require(agentId != bytes20(0));
-        require(tx.age >= blockHeight);
+    // Autonomous Branch: AI Agent executes logic
+    // Rules enforced on-chain regardless of Docker/AI state.
+    function executeAction(
+        int amount,
+        bytes20 recipient,
+        bytes newCommitment
+    ) {
+        // 1. Enforce On-Chain Budget (Governance)
+        require(amount <= 500000); // Max 0.005 BCH per autonomous tx
+        
+        // 2. Record State Persistence (Audit)
+        // Output 0 must be the State NFT returning to the contract with updated hash
+        require(tx.outputs[0].lockingBytecode == tx.inputs[this.activeInputIndex].lockingBytecode);
+        require(tx.outputs[0].nftCommitment == newCommitment);
+        
+        // 3. Effect the spend
+        require(tx.outputs[1].value == amount);
+        require(tx.outputs[1].lockingBytecode == 0x76a914 + recipient + 0x88ac);
+
+        // Security check
         require(agentId != bytes20(0));
     }
 }

@@ -4,7 +4,7 @@ pragma cashscript ^0.12.0;
  * DeFi Agent - Automated Trading & Arbitrage
  * Security: Owner-only + Explicit Spending Limits
  */
-contract DeFiAgent(
+contract NexusSwap(
     pubkey ownerPk, 
     bytes20 agentId,
     int maxTransactionAmount

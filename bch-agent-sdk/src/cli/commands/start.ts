@@ -43,6 +43,17 @@ export const startCommand = new Command('start')
             const mnemonic = Vault.loadFromVault(vaultPassword, vaultPath);
             const ownerPrivKey = WalletManager.deriveKeyPair(mnemonic, 0);
 
+            let apiKey = config.ai?.apiKey;
+            if (config.ai?.encryptedKey) {
+                const vaultPassword = process.env.AGENT_CONFIG_PASSWORD || 'default';
+                try {
+                    const enc = config.ai.encryptedKey;
+                    apiKey = Vault.decrypt(enc.iv, enc.content, vaultPassword, enc.salt, enc.tag);
+                } catch (e) {
+                    throw new Error("Failed to decrypt AI key. Check your password.");
+                }
+            }
+
             // 2. Initialize Agent
             const agent = new AutonomousAgent({
                 name: agentName,
@@ -51,7 +62,7 @@ export const startCommand = new Command('start')
                 artifactPath: path.join(process.cwd(), 'contracts', `${agentName}.json`),
                 provider: ProviderFactory.getProvider(config.network),
                 ownerPrivKey: ownerPrivKey,
-                llmApiKey: config.ai?.apiKey, // We might need to decrypt this if stored in config
+                llmApiKey: apiKey,
                 model: config.ai?.model
             });
 

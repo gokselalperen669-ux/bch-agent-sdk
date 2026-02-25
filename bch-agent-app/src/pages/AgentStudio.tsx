@@ -103,7 +103,7 @@ const AgentStudio = () => {
                 supply: a.holders || 100,
                 price: '0.05 BCH',
                 status: (a.status === 'online' ? 'listed' : (a.status === 'graduated' ? 'sold' : 'minting')) as 'listed' | 'minting' | 'sold',
-                lastActivity: a.createdAt || new Date().toISOString()
+                lastActivity: a.bondingCurveProgress ? `Sync: ${a.bondingCurveProgress}%` : (a.status === 'online' ? 'On-Chain Sync' : 'Stable')
             }));
 
             setNfts(mappedNfts);

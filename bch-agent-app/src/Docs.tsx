@@ -5,7 +5,6 @@ import {
     ShieldCheck,
     Zap,
     Layers,
-    Workflow,
     BookOpen
 } from 'lucide-react';
 
@@ -51,28 +50,72 @@ const DocumentationWebsite = () => {
             icon: Zap,
             content: (
                 <div className="space-y-6">
-                    <h2 className="text-3xl font-bold text-white mb-4">Launch Your First Agent</h2>
+                    <h2 className="text-3xl font-bold text-white mb-4 italic uppercase tracking-tighter">Launch Your Agent</h2>
                     <p className="text-[#929292] text-lg">
-                        The BCH Agent Framework is designed to help you build, deploy, and manage autonomous AI agents on the Bitcoin Cash network in minutes.
+                        The BCH Agent SDK transforms autonomous AI into enforceable on-chain entities. Integrate intelligence with real value in minutes.
                     </p>
-                    <div className="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-sm">
+                    <div className="bg-black/40 border border-white/10 rounded-2xl p-6 font-mono text-sm">
                         <div className="flex items-center gap-2 mb-2 text-[#00E339]">
                             <Terminal size={16} />
-                            <span>Installation</span>
+                            <span>Global Installation</span>
                         </div>
                         <code className="text-white">npm install -g @bch-agent/sdk</code>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FeatureCard
-                            title="Autonomous"
-                            desc="Agents run independent loops, monitoring the chain and acting based on LLM decisions."
-                            icon={Workflow}
-                        />
-                        <FeatureCard
-                            title="Secure"
-                            desc="Built on CashScript covenants. Only the agent logic can move funds under owner constraints."
+                            title="On-Chain Logic"
+                            desc="Agents are governed by covenants that enforce spending limits and state transitions."
                             icon={ShieldCheck}
                         />
+                        <FeatureCard
+                            title="Proof-of-State"
+                            desc="Every mental cycle hash is etched into an NFT commitment for a permanent audit trail."
+                            icon={Layers}
+                        />
+                    </div>
+                </div>
+            )
+        },
+        'why-blockchain': {
+            title: 'Why Blockchain?',
+            icon: BookOpen,
+            content: (
+                <div className="space-y-8 animate-fade-in">
+                    <h2 className="text-3xl font-bold text-white mb-4 italic uppercase tracking-tighter">Protocol Rationale</h2>
+                    <p className="text-[#929292] text-lg leading-relaxed">
+                        To build truly autonomous entities, storage and execution layers are not enough. You need an <span className="text-white font-bold italic">Enforcement Layer</span>.
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-6">
+                        <section className="bg-white/5 border border-white/10 p-10 rounded-3xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                                <ShieldCheck size={120} />
+                            </div>
+                            <h3 className="text-[#00E339] font-black uppercase tracking-[0.3em] text-[10px] mb-6">Covenant Enforcement</h3>
+                            <p className="text-[#929292] leading-relaxed text-sm font-medium z-10 relative">
+                                Unlike Docker containers which can be modified by any root user, a <span className="text-white">BCH Covenant</span> enforces rules that even the server owner cannot bypass. If the agent moves funds, it MUST satisfy the contract's spending limits and destination checks.
+                            </p>
+                        </section>
+
+                        <section className="bg-white/5 border border-white/10 p-10 rounded-3xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                                <Layers size={120} />
+                            </div>
+                            <h3 className="text-[#00E339] font-black uppercase tracking-[0.3em] text-[10px] mb-6">Proof-of-State (Audit)</h3>
+                            <p className="text-[#929292] leading-relaxed text-sm font-medium z-10 relative">
+                                We utilize the <span className="text-white italic">NFT Commitment</span> field to record a cryptographic hash of the agent's reasoning. This creates a globally verifiable, immutable audit trail. You don't trust the agent's database; you verify its on-chain history.
+                            </p>
+                        </section>
+
+                        <section className="bg-white/5 border border-white/10 p-10 rounded-3xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                                <Zap size={120} />
+                            </div>
+                            <h3 className="text-[#00E339] font-black uppercase tracking-[0.3em] text-[10px] mb-6">Global Identity (PKI)</h3>
+                            <p className="text-[#929292] leading-relaxed text-sm font-medium z-10 relative">
+                                Agents gain a unique, sovereign identity via their CashToken category. This allows for peer-to-peer agent negotiation, reputation scoring, and interoperability without centralized coordination.
+                            </p>
+                        </section>
                     </div>
                 </div>
             )
@@ -82,23 +125,23 @@ const DocumentationWebsite = () => {
             icon: Terminal,
             content: (
                 <div className="space-y-6">
-                    <h2 className="text-3xl font-bold text-white mb-4">Command Line Interface</h2>
-                    <div className="space-y-4">
+                    <h2 className="text-3xl font-bold text-white mb-4 italic uppercase tracking-tighter">CLI Commands</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <CommandItem
                             cmd="bch-agent init <project>"
-                            desc="Create a new framework environment with local logic and contracts."
+                            desc="Setup a new agent framework project."
                         />
                         <CommandItem
-                            cmd="bch-agent agent create <name> --type <type>"
-                            desc="Generate a pre-built agent. Types: defi, nft, social, vault."
+                            cmd="bch-agent agent create <name>"
+                            desc="Generate contracts and local AI logic."
                         />
                         <CommandItem
                             cmd="bch-agent wallet save <mnemonic>"
-                            desc="Securely encrypt and store your seed phrase in the local vault."
+                            desc="Encrypt and store your keys in the vault."
                         />
                         <CommandItem
                             cmd="bch-agent deploy <name>"
-                            desc="Instantiate your agent on-chain and get its unique CashAddr."
+                            desc="Push contract and mint State NFT to chain."
                         />
                     </div>
                 </div>

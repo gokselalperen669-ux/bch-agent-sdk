@@ -11,6 +11,11 @@
       "type": "defi",
       "createdAt": "2026-02-23T13:51:53.954Z",
       "status": "offline"
+    },
+    "NexusSwap": {
+      "type": "defi",
+      "createdAt": "2026-02-24T17:53:11.497Z",
+      "status": "offline"
     }
   }
 }

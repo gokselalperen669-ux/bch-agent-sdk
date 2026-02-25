@@ -14,6 +14,13 @@ export const loginCommand = new Command('login')
         const answers = await inquirer.prompt([
             {
                 type: 'input',
+                name: 'apiUrl',
+                message: 'Enter your Nexus Portal URL:',
+                default: process.env.AGENT_API_URL || 'http://localhost:4000',
+                when: !process.env.AGENT_API_URL
+            },
+            {
+                type: 'input',
                 name: 'email',
                 message: 'Enter your email:',
                 validate: (input) => input.includes('@') || 'Please enter a valid email'
@@ -26,7 +33,7 @@ export const loginCommand = new Command('login')
             }
         ]);
 
-        const API_URL = process.env.AGENT_API_URL || 'http://localhost:4000';
+        const API_URL = process.env.AGENT_API_URL || answers.apiUrl || 'http://localhost:4000';
 
         try {
             console.log(chalk.cyan('🚀 Connecting to Nexus Protocol...'));
@@ -53,7 +60,7 @@ export const loginCommand = new Command('login')
             }
 
             const user = response.data;
-            saveAuth({ user });
+            saveAuth({ user, apiUrl: API_URL });
 
             console.log(chalk.green('\n✅ Access Granted!'));
             console.log(chalk.white(`   Identity: ${chalk.bold(user.name)}`));

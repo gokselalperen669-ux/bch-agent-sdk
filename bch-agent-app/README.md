@@ -1,56 +1,68 @@
-# BCH Agent Studio - UI/UX Prototype
+# 🌐 BCH Nexus Portal: The Premium Agent Command Center
 
-Welcome to the **BCH Agent Studio**, a premium developer tool for creating, deploying, and monitoring autonomous AI agents on the Bitcoin Cash blockchain.
+The **BCH Nexus Portal** is the visual monitoring and management layer for the Nexus ecosystem. It provides a real-time dashboard for auditing autonomous agent reasoning, managing treasuries, and orchestrating on-chain intelligence.
 
-## ✨ Features
+---
 
-- **Dashboard**: Real-time monitoring of agent activity, transaction logs, and system health.
-- **Agent Lab**: A powerful interface to define agent logic (system prompts), on-chain triggers, and autonomy protocols.
-- **Contract Base**: Integrated CashScript schema viewer for verifying agent covenants.
-- **Vault**: Integrated wallet management for BCH and CashTokens.
-- **Network Agnostic**: Single-click toggle between Mainnet and Chip-compliant Testnets.
-- **LLM Integration**: Extensible provider system for OpenAI, Anthropic, and local models.
+## ✨ Premium Features
+
+- **Live Audit Trail:** Watch "Proof-of-State" hashes etch into the blockchain in real-time.
+- **Agent Studio:** Visually inspect contract artifacts, bonding curves, and agent status.
+- **Unified API Hub:** A secure proxy for CLI-to-Web synchronization and LLM key management.
+- **Enterprise Aesthetics:** High-fidelity UI with glassmorphism, micro-animations (Framer Motion), and outfit-driven typography.
+
+---
+
+## 🛠 Setup & Deployment
+
+### 1. Local Development
+```bash
+npm install
+npm run api  # Start Backend API (Port 4000)
+npm run dev  # Start Frontend UI (Port 5173 / 4000 proxy)
+```
+
+### 2. Environment Configuration
+Create a `.env` file for production persistence:
+```env
+# Database (Supabase)
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+
+# Security
+JWT_SECRET=nexus_protocol_secure_layer_2026
+PORT=4000
+```
+
+### 3. Vercel Deployment
+The Portal is optimized for Vercel. Ensure `vercel.json` is present for API routing:
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+
+---
+
+## 🔐 The API Hub Architecture
+
+The backend (`api-server.js`) acts as a bridge:
+- **CLI Sync:** Authenticated via JWT, the CLI pushes logs and status updates to this hub.
+- **Persistence:** Supports **Supabase** for permanent cloud storage or a **Local JSON Mock** for offline development.
+- **Security:** Helmet.js and Express Rate Limiter are integrated to protect agent control endpoints.
+
+---
 
 ## 🎨 Design System
 
-- **Primary Color**: `#00E339` (BCH Green)
-- **Background**: `#05070a`
-- **Typography**: Inter (UI) & Outfit (Titles)
-- **Aesthetics**: Glassmorphism, Neon Glows, and Micro-animations via `framer-motion`.
-
-## 🛠 Tech Stack
-
-- **Framework**: Vite + React + TypeScript
-- **Icons**: Lucide React
-- **Animations**: Framer Motion
-- **Styling**: Tailwind CSS + Vanilla CSS Variables
-- **Database**: Supabase (PostgreSQL + Auth)
-
-## 🔐 Authentication & Database (Supabase)
-
-The application uses **Supabase** for secure authentication and real-time database capabilities.
-
-### Setup Instructions
-
-1.  **Create Project**: Go to [Supabase](https://supabase.com) and create a new project.
-2.  **Get Credentials**: In your project dashboard, navigate to `Settings > API` to find your `URL` and `anon` key.
-3.  **Configure Environment**:
-    Create a `.env` file in the root directory:
-    ```env
-    VITE_SUPABASE_URL=your-project-url
-    VITE_SUPABASE_ANON_KEY=your-anon-key
-    ```
-4.  **Restart Server**: Run `npm run dev` again to apply changes.
-
-> **Note**: Email confirmation is enabled by default in Supabase. Check your email after signing up, or disable "Confirm email" in `Authentication > Providers > Email` for development speed.
-
-## 🚀 Backend Integration Status
-
-1.  **Authentication**: ✅ Implemented via Supabase (Sign In / Sign Up).
-2.  **Agent SDK**: Ready for hookup.
-3.  **LLM Engine**: Placeholder ready.
-4.  **BCH Indexer**: Planned.
-5.  **CashScript Compiler**: Planned.
+| Entity | Value |
+| :--- | :--- |
+| **Theme** | Dark Cyberpunk / Industrial |
+| **Accent Color** | `#00E339` (BCH Green) |
+| **Typography** | Inter (UI) & Outfit (Heading) |
+| **Icons** | Lucide React |
 
 ---
-*Created with focus on visual excellence and developer experience.*
+
+## 🤝 Roadmap Integration
+The Portal UI is designed to evolve into an **Agent Marketplace**, allowing users to trade "State-NFTs" and provision autonomous intelligence tokens directly via the dashboard.
+
+*Engineered for Visual Excellence and Immutable Transparency.*

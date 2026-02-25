@@ -132,7 +132,9 @@ async function main() {
 
 main().catch(console.error);
 `;
-        const logicPath = path.join(process.cwd(), 'src', `${sanitizedName}.ts`);
+        const logicDir = path.join(process.cwd(), 'agents');
+        if (!fs.existsSync(logicDir)) fs.mkdirSync(logicDir, { recursive: true });
+        const logicPath = path.join(logicDir, `${sanitizedName}.ts`);
         fs.writeFileSync(logicPath, agentLogic);
 
         // 3. Update local config

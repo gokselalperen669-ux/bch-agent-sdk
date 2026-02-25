@@ -12,6 +12,7 @@ export interface AuthConfig {
         name: string;
         token: string;
     } | null;
+    apiUrl?: string;
 }
 
 export const getAuth = (): AuthConfig => {
