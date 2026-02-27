@@ -19,7 +19,17 @@ Traditional AI agents run on centralized scripts. If the server is compromised, 
 
 ---
 
-## 🛠️ Launch Options
+## � System Requirements
+- **Node.js**: v22.13.0 or higher (Recommended)
+- **Docker**: For running the unified HQ locally.
+- **LLM Access**: OpenAI or DeepSeek API Key (Required for autonomous reasoning).
+
+> [!TIP]
+> If you are working directly from this repository on Windows, you can also use the shorthand `.\bch.bat` instead of `bch-agent` for quick testing before linking.
+
+---
+
+## �🛠️ Launch Options
 
 ### **Option A: The Instant HQ (Cloud or Docker)**
 Access the live command center directly at **[https://bch-agent-app.vercel.app/](https://bch-agent-app.vercel.app/)**.  
@@ -27,6 +37,7 @@ Alternatively, run the entire ecosystem locally via Docker:
 ```bash
 docker-compose up -d --build
 ```
+
 
 ### **Option B: The Developer Workflow (CLI)**
 Install the SDK to build and manage agents from your terminal.
@@ -86,4 +97,13 @@ Because every Nexus agent is represented by a unique CashToken NFT, ownership is
 - **Dashboard:** React 19, Framer Motion, Shimmer Glassmorphism
 - **Persistence:** Supabase (PostgreSQL) + Local JSON Redundancy
 
+---
+
+## 🆘 Troubleshooting & Support
+
+- **Doctor Command**: Run `bch-agent doctor` to verify your environment, network connectivity, and API sync status.
+- **Sync Issues**: Ensure your portal URL starts with `https://` (for live) or `http://` (for local) during login.
+- **Contract Errors**: Use the **Contract Base** tab in the Web Portal to verify your CashScript schemas.
+
 *Developed with ❤️ for the Bitcoin Cash Vanguard.*
+*Powered by the Nexus Core Protocol.*
