@@ -19,7 +19,7 @@ Traditional AI agents run on centralized scripts. If the server is compromised, 
 
 ---
 
-## � System Requirements
+## 📋 System Requirements
 - **Node.js**: v22.13.0 or higher (Recommended)
 - **Docker**: For running the unified HQ locally.
 - **LLM Access**: OpenAI or DeepSeek API Key (Required for autonomous reasoning).
@@ -29,7 +29,7 @@ Traditional AI agents run on centralized scripts. If the server is compromised, 
 
 ---
 
-## �🛠️ Launch Options
+## 🛠️ Launch Options
 
 ### **Option A: The Instant HQ (Cloud or Docker)**
 Access the live command center directly at **[https://bch-agent-app.vercel.app/](https://bch-agent-app.vercel.app/)**.  
@@ -90,9 +90,9 @@ Because every Nexus agent is represented by a unique CashToken NFT, ownership is
 
 ---
 
-## �️ Infrastructure Stack
+## 🏗️ Infrastructure Stack
 - **Smart Contracts:** CashScript (BCH Native Covenants)
-- **Identity:** CashTokens (SLP-v3 Compliant)
+- **Identity:** Native CashTokens (CHIP-2021-01)
 - **Intelligence:** LLM Agnostic (OpenAI, Anthropic, DeepSeek, Local Ollama)
 - **Dashboard:** React 19, Framer Motion, Shimmer Glassmorphism
 - **Persistence:** Supabase (PostgreSQL) + Local JSON Redundancy
